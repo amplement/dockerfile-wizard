@@ -4,6 +4,9 @@ echo "FROM buildpack-deps:$(awk -F'_' '{print tolower($2)}' <<< $LINUX_VERSION)"
 
 echo "RUN apt-get update"
 
+echo "RUN echo 'deb http://http.debian.net/debian stretch-backports main' > /etc/apt/sources.list.d/backports.list && apt update && apt -t stretch-backports install ansible -y"
+echo "RUN apt-get install gnupg git-crypt -y"
+
 if [ ! -e $RUBY_VERSION_NUM ] ; then
     echo "RUN apt-get install -y libssl-dev && wget http://ftp.ruby-lang.org/pub/ruby/$(awk -F'.' '{ print $1"."$2 }' <<< $RUBY_VERSION_NUM)/ruby-$RUBY_VERSION_NUM.tar.gz && \
     tar -xzvf ruby-$RUBY_VERSION_NUM.tar.gz && \
